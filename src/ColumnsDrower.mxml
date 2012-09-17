@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:charts="ru.flexis.charts.*">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				var datas:Array = taInput.text.split("\n");
+				cols.clear();
+				for each (var dl:String in datas)
+				{
+					var scol:Array = dl.split(" ");
+					var value:Number = Number(scol[0]);
+					var size:Number = Number(scol[1]);
+					var color:uint = parseInt(String(scol[2]), 16);
+					cols.addCol(value, size, color);
+				}
+			}
+			
+			protected function taInput_creationCompleteHandler(event:FlexEvent):void
+			{
+				taInput.text = "10 1.2 0xFF0000\n2 1.7 0x00FF00\n4 4 0xFF";
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:HGroup width="100%" height="100%">
+		<s:VGroup width="100%" height="100%" paddingTop="10" paddingLeft="10" paddingRight="10" paddingBottom="10">
+			<charts:ColumnData id="cols" x="15" y="40" width="100%" height="100%">
+			</charts:ColumnData>
+		</s:VGroup>
+		<s:VGroup width="200">
+			<s:TextArea id="taInput" width="100%" height="100%" creationComplete="taInput_creationCompleteHandler(event)">
+			</s:TextArea>
+			<s:Button label="Parse" click="button1_clickHandler(event)" />
+		</s:VGroup>
+	</s:HGroup>
+</s:WindowedApplication>
